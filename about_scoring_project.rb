@@ -105,4 +105,8 @@ class AboutScoringProject < Neo::Koan
     assert_equal 1150, score([1,1,1,5,1])
   end
 
+  def test_longer_score_still_works
+    assert_equal 2100, score([1,1,1,1,1,1,1])
+  end
+
 end
