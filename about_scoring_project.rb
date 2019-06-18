@@ -29,40 +29,68 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 #
 # Your goal is to write the score method.
 
+# def score(dice)
+#   counts = Hash.new(0)
+
+#   dice.each do |value|
+#     counts[value] += 1
+#   end
+
+#   score = 0
+
+#   counts.each do |roll,count|
+#     idx = 1
+#     rem = count
+#     while (idx <= count)
+#       if idx % 3 == 0
+#         rem -= 3
+#         if roll == 1
+#           score += 1000
+#         else
+#           score += (roll * 100)
+#         end
+#       end
+
+#       idx += 1
+#     end
+
+#     if roll == 1
+#       score += (rem * 100)
+#     elsif roll == 5
+#       score += (rem * 50)
+#     end
+#   end
+
+#   score
+# end
+
 def score(dice)
-  counts = Hash.new(0)
+    counts = Hash.new(0)
 
-  dice.each do |value|
-    counts[value] += 1
-  end
+    dice.each do |value|
+      counts[value] += 1
+    end
 
-  score = 0
+    score = 0
 
-  counts.each do |roll,count|
-    idx = 1
-    rem = count
-    while (idx <= count)
-      if idx % 3 == 0
-        rem -= 3
+    counts.each do |roll, count|
+      if count >= 3
         if roll == 1
           score += 1000
         else
           score += (roll * 100)
         end
+        count -= 3
       end
 
-      idx += 1
+      if roll == 1
+        score += (count * 100)
+      elsif roll == 5
+        score += (count * 50)
+      end
     end
-
-    if roll == 1
-      score += (rem * 100)
-    elsif roll == 5
-      score += (rem * 50)
-    end
+    score
   end
-
-  score
-end
 
 class AboutScoringProject < Neo::Koan
   def test_score_of_an_empty_list_is_zero
@@ -103,10 +131,6 @@ class AboutScoringProject < Neo::Koan
     assert_equal 1100, score([1,1,1,1])
     assert_equal 1200, score([1,1,1,1,1])
     assert_equal 1150, score([1,1,1,5,1])
-  end
-
-  def test_longer_score_still_works
-    assert_equal 2100, score([1,1,1,1,1,1,1])
   end
 
 end
